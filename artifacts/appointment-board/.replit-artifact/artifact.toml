@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Appointment Board"
+description = "A full-stack appointment board for small teams to manage scheduled appointments, filter them by date and status, prevent overlapping time slots, and track completed or cancelled work."
+version = "1.0.0"
+id = "artifacts/appointment-board"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19114
+
+[services.development]
+run = "pnpm --filter @workspace/appointment-board run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/appointment-board", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/appointment-board/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19114"
+BASE_PATH = "/"
